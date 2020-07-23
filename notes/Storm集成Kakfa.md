@@ -143,7 +143,7 @@ public class WritingToKafkaApp {
         KafkaBolt bolt = new KafkaBolt<String, String>()
                 .withProducerProperties(props)
                 .withTopicSelector(new DefaultTopicSelector(TOPIC_NAME))
-                .withTupleToKafkaMapper(new FieldNameBasedTupleToKafkaMapper<>());
+                .withTupleToKafkaMapper(new FieldNameBasedTupleToKafkaMapper<>("key", "line"));//FieldNameBasedTupleToKafkaMapper default boltMessageField is "message"
 
         builder.setSpout("sourceSpout", new DataSourceSpout(), 1);
         builder.setBolt("kafkaBolt", bolt, 1).shuffleGrouping("sourceSpout");
